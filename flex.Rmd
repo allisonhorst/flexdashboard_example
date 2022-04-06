@@ -1,0 +1,96 @@
+---
+title: "My awesome dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    theme: journal
+    orientation: rows
+    source_code: embed
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+library(palmerpenguins)
+library(plotly)
+library(leaflet)
+```
+
+Tab ONE
+================================================
+
+Row
+--------------------------------
+
+### Total penguins
+```{r}
+valueBox(nrow(penguins), color = "cornsilk")
+```
+
+### Penguin species
+```{r}
+valueBox(length(unique(penguins$species)), color = "lightcyan")
+```
+
+Row
+--------------------------------
+
+### A nice scatterplot
+
+```{r}
+p <- ggplot(data = penguins, aes(x = flipper_length_mm, y = body_mass_g)) + geom_point(aes(color = species)) +
+  scale_color_manual(values = c("coral", "cyan4", "gray30")) +
+  theme_minimal()
+
+ggplotly(p)
+```
+
+### A map?
+```{r}
+leaflet() %>%
+  addTiles() %>%  # Add default OpenStreetMap map tiles
+  addMarkers(lng=-119.702, lat=34.423, popup="NCEAS")
+```
+
+### A histogram of Chinstraps
+
+```{r}
+penguins %>% 
+  filter(species == "Chinstrap") %>% 
+  ggplot(aes(x = bill_depth_mm)) +
+  geom_histogram()
+```
+
+
+Row 
+------------------------
+
+### Something else? 
+```{r}
+valueBox(length(unique(penguins$species)), color = "honeydew")
+```
+
+
+Tab TWO
+=====================================
+
+### Another graph
+```{r}
+penguins %>% 
+  ggplot(aes(x = species, y = bill_depth_mm)) +
+  geom_col(aes(fill = island)) +
+  coord_polar() + 
+  theme_minimal()
+```
+
+### Cool more plotly
+
+```{r}
+p <- penguins %>% 
+  count(species) %>% 
+  ggplot(aes(x = species, y = n)) +
+  geom_col() +
+  theme_minimal()
+
+ggplotly(p)
+```
+
