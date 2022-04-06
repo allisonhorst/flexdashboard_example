@@ -1,0 +1,17 @@
+---
+title: "crosstalk and htmlwidgets"
+author: "Allison Horst"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(crosstalk)
+library(htmlwidgets)
+```
+
+Shiny is awesome, but requires R running behind the scenes and may be a bit more than you need for basic interactivity in less demanding notebooks. 
+
+The `htmlwidgets` and `crosstalk` packages might have what you need for minimal interactivity that doesn't require Shiny. 
+
